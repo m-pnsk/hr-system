@@ -1,0 +1,5 @@
+.idea/*
+*.sql
+test.py
+HR.sqbpro
+target/*

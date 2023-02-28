@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{url_for('static', filename = 'css/main.css')}}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/626b97e7ee.js" crossorigin="anonymous"></script>
+
+    <title>Document</title>
+</head>
+<body>
+<section class="vh-100">
+  <div class="container py-5 h-100">
+    <div class="row d-flex align-items-center justify-content-center h-100">
+      <div class="col-md-8 col-lg-7 col-xl-6">
+        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
+          class="img-fluid" alt="Phone image">
+      </div>
+      <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
+          <h2>Рекрутерська система</h2><br>
+          {% for msg in get_flashed_messages() %}
+            <div class="flash">{{msg}}</div>
+        {% endfor %}
+        <form method="post" >
+          <!-- Phone input -->
+          <div class="form-outline mb-4">
+            <input type="phone" name="phone" value="+380" id="phone" class="form-control form-control-lg" />
+          </div>
+
+          <!-- Password input -->
+          <div class="form-outline mb-4">
+            <input type="password" name="password" id="password" placeholder="Пароль" class="form-control form-control-lg" />
+          </div>
+
+          <div class="d-flex justify-content-around align-items-center mb-4">
+            <!-- Checkbox -->
+            <div class="btn-group" role="group">
+              <input class="btn-check" type="radio" id="userChoice1" name="user" value="candidate" checked>
+                <label class="btn btn-outline-primary" for="userChoice1">Кандидат</label>
+                <input class="btn-check" type="radio" id="userChoice2" name="user" value="expert">
+                <label class="btn btn-outline-primary" for="userChoice2">Експерт</label>
+                <input class="btn-check" type="radio" id="userChoice3" name="user" value="hr">
+                <label class="btn btn-outline-primary" for="userChoice3">Рекрутер</label>
+            </div>
+          </div>
+            <div class="login">
+          <!-- Submit button -->
+            <input type="submit" class="btn btn-primary login-button" style="width:45%; background-color:#0cb90c;" value="Вхід">
+
+            <!-- Register buttons -->
+            <div>
+                <p>Ще не зареєстровані? <a href="/registr" data-bs-toggle="modal" data-bs-target="#exampleModal">Зареєструватися</a></p>
+            </div>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Реєстрація</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+        <form method="post" style="width:100%; display: flex; flex-direction: column">
+      <div class="modal-body">
+          {% for msg in get_flashed_messages() %}
+    <div class="flash">{{msg}}</div>
+{% endfor %}
+<div style="width:100%">
+         <div class="form-outline mb-4" style="display: flex; align-items: center;">
+         <span style="margin-right:5px;" class="input-group-addon"><i class="fa fa-user fa" aria-hidden="true"></i></span>
+                <input type="text" class="form-control" name="user_name" id="user_name" placeholder="Ваше ім'я" required/>
+         </div>
+  <div class="form-outline mb-4" style="display: flex; align-items: center;">
+                 <span style="margin-right:5px;"><i class="fa fa-pen fa" aria-hidden="true"></i></span>
+      <textarea name="about_me" id="about_me" class="form-control" placeholder="Розкажіть про себе" required></textarea>
+  </div>
+  <!-- Email input -->
+  <div class="form-outline mb-4" style="display: flex; align-items: center;">
+                 <span style="margin-right:5px;" class="input-group-addon"><i class="fa fa-phone fa" aria-hidden="true"></i></span>
+                <input type="phone" name="phone" id="phonem" class="form-control" value="+380" required />
+  </div>
+
+  <!-- Password input -->
+  <div class="form-outline mb-4" style="display: flex; align-items: center;">
+      <span style="margin-right:5px;" class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+      <input type="password" class="form-control" name="password" id="passwordm" placeholder="Enter your Password" required/>
+  </div>
+         <div class="form-outline mb-4" style="display: flex; align-items: center;">
+<span style="margin-right:5px;" class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+<input type="password" class="form-control" name="confirm_password" id="confirm" placeholder="Confirm your Password" required/>
+</div>
+</div>
+</div>
+       <!-- Submit button -->
+    <input type="submit" formaction="/registr" id="button" class="btn btn-primary btn-block mb-4" style="margin:auto; background-color: #0cb90c;" value="Зареєструватися">
+</form>
+    </div>
+  </div>
+</div>
+</body>
+</html>

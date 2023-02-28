@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script type="text/javascript" src="../../static/jscript/script.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='jscript/script.js') }}"></script>
+    <link rel="stylesheet" href="{{url_for('static', filename = 'css/main.css')}}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,600,0,200" />
+  <script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand navbar-dark bg-dark" style="margin-bottom:10px" aria-label="Second navbar example">
+    <div class="container-fluid">
+      <a class="navbar-brand" style="margin: 0 70px 0px 20px;" href="#">ІАСР</a>
+
+      <div class="collapse navbar-collapse" id="navbarsExample02">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/hr/hr_vac">Усі вакансії</a>
+          </li>
+        </ul>
+          <div>
+              <a href="/logout"><button class="logout"><span style="color:white" class="material-symbols-outlined">logout</span>Вихід</button></a>
+          </div>
+      </div>
+    </div>
+  </nav>
+    <div class="container" id="cnt">
+        <div class="row my-4">
+            <div class="col-lg-12">
+                <h3 class="mb-4">{{name_vac}}</h3>
+                <div class="panel-body table-responsive" style="max-height:500px">
+                <table class="table table-bordered table-striped1">
+                    <thead>
+                        <tr>
+                        <th>Ім'я</th>
+                        <th>Телефон</th>
+                        <th>Про кандидата</th>
+                    </tr>
+                    </thead>
+
+                    {% for cands in name_cand%}
+                    <tr>
+                        <td>{{cands[0]}}</td>
+                        <td>{{cands[1]}}</td>
+                        <td><a href="" data-bs-toggle="modal" data-bs-target="#exampleModal{{cands[2]}}">Резюме</a></td>
+                    </tr>
+                    {% endfor %}
+                </table>
+                </div>
+            </div>
+        </div>
+        <div class="row my-5 d-flex justify-content-between">
+            <div class="col-lg-4">
+                <div class="panel-body table-responsive" style="max-height:500px">
+                    <h5>Матриця пріоритетів критеріїв</h5>
+                    <table class="table table-bordered table-striped1">
+                    {% for n in name_crit%}
+                        <tr>
+                            <th>
+                                {{n[0]}}
+                            </th>
+                            <td>
+                                {{W[loop.index0]}}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="panel-body table-responsive" style="max-height:500px">
+                    <h5>Матриця пріоритетів кандидатів</h5>
+                    <table class="table table-bordered table-striped1">
+                    {% for i in range(-1, name_cand |length)%}
+                        <tr>
+                            {% if i == -1%}
+                            <th></th>
+                            {% else %}
+                            <th>{{name_cand[i][0]}}</th>
+                            {% endif %}
+                        {% for j in range(0, name_crit |length)%}
+                            {% if i != -1%}
+                            <td>{{candW[j][i]}}</td>
+                            {% else %}
+                            <th>{{name_crit[j][0]}}</th>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="row my-7" id="secondpage">
+            <div class="col-lg-12">
+                <div class="panel-body table-responsive" style="text-align:center; max-height:500px">
+                    <h5>Вектор глобальних пріоритетів</h5>
+                    <table class="table table-bordered table-striped2">
+                            <tr>
+                                {% for n in name_cand%}
+                                <th>
+                                    {{n[0]}}
+                                </th>
+                                {% endfor %}
+                            </tr>
+
+                            <tr>
+                                {% for w in GW%}
+                                <td>
+                                    {{w}}
+                                </td>
+                                {% endfor %}
+                            </tr>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center">
+            <div class="col-lg-12">
+                <div class="w-98" style="text-align:center; background-color: #4aff2f; border: 3px solid #0d6efd;">
+                    <span style="color:red; "><h2>На посаду рекомендується призначити кандидата: #{{mai[0]}} - {{mai[1]}}</h2></span>
+                </div>
+            </div>
+
+        </div>
+
+        <br>
+    </div>
+    <div class="confirm" style="text-align:center;" ><button onclick="genPDF('{{name_vac}}')" class="col-lg-3 col-sm-8 my-4 btn btn-primary">Сформувати звіт</button></div>
+
+{% for cands in name_cand%}
+        <div class="modal fade" id="exampleModal{{cands[2]}}" tabindex="-1" aria-labelledby="exampleModalLabel{{cands[2]}}" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel{{cands[2]}}">{{cands[0]}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <p>{{cands[3]}}</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+        {% endfor %}
+</body>
+</html>
